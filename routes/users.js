@@ -4,7 +4,7 @@ const usersController = require('../controllers/users');
 
 const router = express.Router();
 
-//router.get();
+router.get('/', usersController.display);
 
 router.post('/', usersController.add);
 

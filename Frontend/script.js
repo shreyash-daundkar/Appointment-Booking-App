@@ -23,7 +23,7 @@ async function onRefresh() {
     Array.from(list.children).forEach((x) => x.style.display = 'none');
     try {
         const res = await axios.get(api);
-        for(user of res.data) addUser(user);
+        res.data.forEach(item => addUser(item));
         showMsg('success', 'Refreshed');
     } catch (err) {
         console.log(err.message);

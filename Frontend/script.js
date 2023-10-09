@@ -11,7 +11,7 @@ const list = document.querySelector('#list');
 
 // Server address and routs
 
-const url = '/Appointments';
+const api = 'http://localhost:4000/appointment';
 
 
 
@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded',onRefresh)
 async function onRefresh() {
     Array.from(list.children).forEach((x) => x.style.display = 'none');
     try {
-        const res = await axios.get( url + route);
+        const res = await axios.get(api);
         for(user of res.data) addUser(user);
         showMsg('success', 'Refreshed');
     } catch (err) {
@@ -68,7 +68,7 @@ function isValid() {
 
 async function storeOnServer (name, email) {
     try {
-        const res = await axios.post(url + route, {email,name});
+        const res = await axios.post(api, {email,name});
         addUser(res.data);
         showMsg('success', 'Submitted');
     } catch (err) {
@@ -96,7 +96,7 @@ function listEvent(e) {
 async function dltUser(li) {
     try {
         const id = li.getAttribute('data-id');
-        await axios.delete( url + route + "/" + id);
+        await axios.delete( api + "/" + id);
         li.style.display = 'none';
         showMsg('success', 'Deleted');
     } catch (err) {
@@ -124,7 +124,7 @@ function editUser(li) {
 async function updateUser(name, email) {
     try {
         const id = editing.getAttribute('data-id');
-        const res = await axios.put(url + route + "/" + id, {email,name});
+        const res = await axios.put(api + "/" + id, {email,name});
         editing.children[2].textContent = name;
         editing.children[3].textContent = email;
         showMsg('success', 'Edited');
@@ -155,7 +155,7 @@ function addUser(user) {
     const edit = addElement('button', li, 'Edit', 'edit-btn', 'list-btn');
     const liName =  addElement('span', li, user.name, 'li-name');
     const liEmail = addElement('span', li, user.email, 'li-email');
-    li.setAttribute('data-id', user["_id"]);
+    li.setAttribute('data-id', user["id"]);
 }
 
 function addElement(type, parent, text, ...classes) {
